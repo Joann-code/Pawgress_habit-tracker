@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Pawgress - Calendar</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#4d463e",
+                        "on-background": "#1f1b18",
+                        "outline": "#7e766d",
+                        "primary": "#6a5c4b",
+                        "primary-container": "#fbe7d1",
+                        "secondary": "#516255",
+                        "secondary-container": "#d4e7d6",
+                        "tertiary": "#615e59",
+                        "background": "#fff8f4",
+                        "surface": "#fff8f4",
+                        "surface-variant": "#eae1db",
+                        "surface-container": "#f5ece6",
+                        "surface-container-high": "#efe6e1",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#d0c5ba",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "on-error-container": "#93000a"
+                    },
+                    "fontFamily": {
+                        "h1": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .animate-fade-in { animation: fadeIn 0.2s ease-out forwards; }
+        .animate-slide-up { animation: slideUp 0.3s ease-out forwards; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex flex-col">
+
+    <header class="w-full bg-surface-container-lowest border-b border-outline-variant/50 sticky top-0 z-40">
+        <div class="max-w-[1140px] mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-8">
+                <div class="text-2xl font-bold text-primary tracking-tight">Pawgress</div>
+                <nav class="hidden md:flex items-center gap-6">
+                    <a class="text-on-surface-variant hover:text-on-surface transition-colors py-1" href="dashboard.html">Dashboard</a>
+                    <a class="text-primary font-medium border-b-2 border-primary py-1" href="calendarpage.html">Calendar</a>
+                </nav>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="flex items-center gap-3 border-l border-outline-variant/30 pl-6">
+                    <div class="text-right hidden sm:block">
+                        <p class="text-sm font-medium">Level 1</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-variant border-2 border-outline-variant/30 relative flex-shrink-0 flex items-center justify-center text-xl bg-surface-container-high">
+                        <span id="header-pet-avatar">🐶</span>
+                    </div>
+                    <button id="btn-logout-nav" class="ml-2 w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-error-container hover:text-on-error-container transition-colors cursor-pointer" title="Log Out">
+                        <span class="material-symbols-outlined" style="font-size: 22px;">logout</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 overflow-y-auto p-6 lg:p-12 bg-background">
+        <div class="max-w-[1200px] mx-auto flex flex-col lg:flex-row gap-12">
+            
+            <section class="flex-1">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
+                    <div>
+                        <h1 class="text-4xl font-bold mb-2 text-on-background">October</h1>
+                        <p class="text-lg text-on-surface-variant">Stay on track, one paw at a time.</p>
+                    </div>
+                    <div class="flex bg-surface-container-lowest border border-surface-container rounded-full p-1 shadow-sm self-start sm:self-auto">
+                        <button class="p-2 rounded-full hover:bg-surface-container-low text-on-surface-variant"><span class="material-symbols-outlined">chevron_left</span></button>
+                        <div class="px-6 py-2 font-medium text-on-background">2023</div>
+                        <button class="p-2 rounded-full hover:bg-surface-container-low text-on-surface-variant"><span class="material-symbols-outlined">chevron_right</span></button>
+                    </div>
+                </div>
+
+                <div class="bg-surface-container-lowest rounded-3xl p-6 lg:p-10 shadow-sm border border-surface-container">
+                    <div class="grid grid-cols-7 gap-4 mb-6 text-center">
+                        <div class="text-xs font-bold text-on-surface-variant uppercase">Sun</div>
+                        <div class="text-xs font-bold text-on-surface-variant uppercase">Mon</div>
+                        <div class="text-xs font-bold text-on-surface-variant uppercase">Tue</div>
+                        <div class="text-xs font-bold text-on-surface-variant uppercase">Wed</div>
+                        <div class="text-xs font-bold text-on-surface-variant uppercase">Thu</div>
+                        <div class="text-xs font-bold text-on-surface-variant uppercase">Fri</div>
+                        <div class="text-xs font-bold text-on-surface-variant uppercase">Sat</div>
+                    </div>
+
+                    <div class="grid grid-cols-7 gap-4">
+                        <div class="aspect-square"></div><div class="aspect-square"></div>
+                        
+                        <button class="aspect-square rounded-2xl bg-surface-container-lowest border border-surface-container flex items-center justify-center text-sm text-on-surface-variant hover:bg-surface-container-low transition-colors">1</button>
+                        <button class="aspect-square rounded-2xl bg-surface-container-lowest border border-surface-container flex items-center justify-center text-sm text-on-surface-variant hover:bg-surface-container-low transition-colors">2</button>
+                        <button class="aspect-square rounded-2xl bg-surface-container-lowest border border-surface-container flex items-center justify-center text-sm text-on-surface-variant hover:bg-surface-container-low transition-colors">3</button>
+                        <button class="aspect-square rounded-2xl bg-surface-container-lowest border border-surface-container flex items-center justify-center text-sm text-on-surface-variant hover:bg-surface-container-low transition-colors">4</button>
+                        <button class="aspect-square rounded-2xl bg-surface-container-lowest border border-surface-container flex items-center justify-center text-sm text-on-surface-variant hover:bg-surface-container-low transition-colors">5</button>
+                        <button class="aspect-square rounded-2xl bg-surface-container-lowest border border-surface-container flex items-center justify-center text-sm text-on-surface-variant hover:bg-surface-container-low transition-colors">6</button>
+                        <button class="aspect-square rounded-2xl bg-surface-container-lowest border border-surface-container flex items-center justify-center text-sm text-on-surface-variant hover:bg-surface-container-low transition-colors">7</button>
+                        <button class="aspect-square rounded-2xl bg-surface-container-lowest border border-surface-container flex items-center justify-center text-sm text-on-surface-variant hover:bg-surface-container-low transition-colors">8</button>
+                        <button class="aspect-square rounded-2xl bg-surface-container-lowest border border-surface-container flex items-center justify-center text-sm text-on-surface-variant hover:bg-surface-container-low transition-colors">9</button>
+                        
+                        <button id="today-cell" class="aspect-square rounded-2xl bg-primary-container border border-primary/30 shadow-sm flex flex-col items-center justify-center gap-1 relative overflow-hidden group transition-all">
+                            <span class="text-sm font-bold text-on-primary-container">10</span>
+                            <div id="today-paw-container" class="transition-transform duration-300 group-hover:scale-125">
+                                </div>
+                            <span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-secondary rounded-full"></span>
+                        </button>
+                        
+                        <div class="aspect-square rounded-2xl border border-surface-container-high border-dashed flex items-center justify-center text-sm text-outline-variant">11</div>
+                        <div class="aspect-square rounded-2xl border border-surface-container-high border-dashed flex items-center justify-center text-sm text-outline-variant">12</div>
+                        <div class="aspect-square rounded-2xl border border-surface-container-high border-dashed flex items-center justify-center text-sm text-outline-variant">13</div>
+                        <div class="aspect-square rounded-2xl border border-surface-container-high border-dashed flex items-center justify-center text-sm text-outline-variant">14</div>
+                        <div class="aspect-square rounded-2xl border border-surface-container-high border-dashed flex items-center justify-center text-sm text-outline-variant">15</div>
+                    </div>
+                </div>
+            </section>
+
+            <aside class="lg:w-80 flex flex-col gap-6">
+                <h3 class="text-2xl font-bold text-on-background">Overview</h3>
+                
+                <div class="bg-surface-container-lowest rounded-3xl p-6 border border-surface-container shadow-sm flex flex-col gap-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-[10px] font-bold text-on-surface-variant mb-1 uppercase tracking-widest">Daily Goal</p>
+                            <p id="cal-progress-text" class="text-3xl font-bold text-on-background">0%</p>
+                        </div>
+                        <div class="w-14 h-14 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+                        </div>
+                    </div>
+                    <div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+                        <div id="cal-progress-bar" class="bg-secondary h-full rounded-full transition-all duration-700" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-surface-container-lowest rounded-3xl p-5 border border-surface-container shadow-sm flex flex-col items-center text-center">
+                        <span class="material-symbols-outlined text-primary mb-3 text-2xl" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+                        <p id="cal-streak-text" class="text-2xl font-bold text-on-background">0</p>
+                        <p class="text-xs text-on-surface-variant font-medium">Day Streak</p>
+                    </div>
+                    <div class="bg-surface-container-lowest rounded-3xl p-5 border border-surface-container shadow-sm flex flex-col items-center text-center">
+                        <span class="material-symbols-outlined text-on-surface-variant mb-3 text-2xl">cookie</span>
+                        <p id="cal-food-text" class="text-2xl font-bold text-on-background">0</p>
+                        <p class="text-xs text-on-surface-variant font-medium">Total Food</p>
+                    </div>
+                </div>
+
+                <div class="bg-surface-container-lowest rounded-3xl p-6 border border-surface-container shadow-sm flex items-center gap-4">
+                    <div id="cal-pet-emoji-small" class="text-3xl">🐶</div>
+                    <div>
+                        <p id="cal-pet-name-small" class="font-bold text-on-background">Buddy</p>
+                        <p class="text-xs text-on-surface-variant">Your Companion</p>
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+    </main>
+
+    <div id="logout-modal" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm items-center justify-center p-4">
+        <div id="logout-modal-card" class="bg-surface-container-lowest w-full max-w-sm rounded-3xl p-8 shadow-2xl flex flex-col gap-6 opacity-0">
+            <div class="text-center space-y-2">
+                <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-error-container text-on-error-container mb-3">
+                    <span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">logout</span>
+                </div>
+                <h2 class="text-2xl font-bold text-on-surface">Log Out?</h2>
+                <p class="text-on-surface-variant">Are you sure you want to leave your companion for now?</p>
+            </div>
+            <div class="flex flex-col gap-3 mt-2">
+                <button id="btn-confirm-logout" class="w-full py-3.5 bg-error text-on-error rounded-full font-medium hover:bg-error/90 active:scale-[0.98] transition-all cursor-pointer">Yes, Log Out</button>
+                <button id="btn-cancel-logout" class="w-full py-3.5 border-2 border-outline-variant text-on-surface rounded-full font-medium hover:bg-surface-variant active:scale-[0.98] transition-all cursor-pointer">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        // Konfigurasi Firebase (Jangan dihapus)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDoJaDoLgqK0mBqwFlR4IzfOXU5Momw79M",
+            authDomain: "pawgress-61f1b.firebaseapp.com",
+            projectId: "pawgress-61f1b",
+            storageBucket: "pawgress-61f1b.firebasestorage.app",
+            messagingSenderId: "961533964015",
+            appId: "1:961533964015:web:e8ebc2c592bcf03def751a"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // --- SISTEM LOGOUT ---
+        const btnLogoutNav = document.getElementById('btn-logout-nav');
+        const logoutModal = document.getElementById('logout-modal');
+        const logoutModalCard = document.getElementById('logout-modal-card');
+        const btnCancelLogout = document.getElementById('btn-cancel-logout');
+        const btnConfirmLogout = document.getElementById('btn-confirm-logout');
+
+        btnLogoutNav.addEventListener('click', () => {
+            logoutModal.classList.remove('hidden'); logoutModal.classList.add('flex', 'animate-fade-in');
+            logoutModalCard.classList.add('animate-slide-up');
+        });
+
+        const closeLogoutModal = () => {
+            logoutModal.classList.add('hidden'); logoutModal.classList.remove('flex', 'animate-fade-in');
+            logoutModalCard.classList.remove('animate-slide-up');
+        };
+
+        btnCancelLogout.addEventListener('click', closeLogoutModal);
+        logoutModal.addEventListener('click', (e) => { if(e.target === logoutModal) closeLogoutModal(); });
+
+        btnConfirmLogout.addEventListener('click', () => {
+            btnConfirmLogout.innerText = "Logging out...";
+            signOut(auth).then(() => {
+                localStorage.clear(); // Bersihin data lokal biar akun selanjutnya fresh
+                window.location.href = "login.html";
+            }).catch((error) => {
+                console.error("Logout error:", error);
+                btnConfirmLogout.innerText = "Yes, Log Out";
+            });
+        });
+
+        // --- SISTEM TAMPILAN KALENDER ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const petName = localStorage.getItem('pawgress_pet_name') || 'Buddy';
+            const petEmoji = localStorage.getItem('pawgress_pet_emoji') || '🐶';
+            const habits = JSON.parse(localStorage.getItem('pawgress_habits')) || [];
+            const stats = JSON.parse(localStorage.getItem('pawgress_stats')) || { totalFood: 0, habitsDone: 0, streak: 0 };
+            const todayPawStatus = localStorage.getItem('pawgress_today_paw') || 'none';
+
+            document.getElementById('header-pet-avatar').innerText = petEmoji;
+            document.getElementById('cal-pet-emoji-small').innerText = petEmoji;
+            document.getElementById('cal-pet-name-small').innerText = petName;
+
+            document.getElementById('cal-streak-text').innerText = stats.streak;
+            document.getElementById('cal-food-text').innerText = stats.totalFood;
+
+            const progressText = document.getElementById('cal-progress-text');
+            const progressBar = document.getElementById('cal-progress-bar');
+            
+            if (habits.length > 0) {
+                const doneCount = habits.filter(h => h.checked).length;
+                const percentage = Math.round((doneCount / habits.length) * 100);
+                progressText.innerText = percentage + '%';
+                progressBar.style.width = percentage + '%';
+            }
+
+            const pawContainer = document.getElementById('today-paw-container');
+            if (todayPawStatus === 'complete') {
+                pawContainer.innerHTML = `<span class="material-symbols-outlined text-secondary text-2xl" style="font-variation-settings: 'FILL' 1;">pets</span>`;
+            } else if (todayPawStatus === 'partial') {
+                pawContainer.innerHTML = `<span class="material-symbols-outlined text-primary/40 text-2xl" style="font-variation-settings: 'FILL' 1;">pets</span>`;
+            } else {
+                pawContainer.innerHTML = '';
+            }
+        });
+    </script>
+</body>
+</html>

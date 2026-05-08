@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Onboarding - Pawgress</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = { darkMode: "class", theme: { extend: { colors: { "on-primary": "#ffffff", "on-surface-variant": "#4d463e", "primary-container": "#fbe7d1", "surface-container": "#f5ece6", "surface-tint": "#6a5c4b", "on-surface": "#1f1b18", "primary": "#6a5c4b", "surface-variant": "#eae1db", "background": "#fff8f4", "surface": "#fff8f4" } } } }
+    </script>
+    <style>
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .squishy-hover { transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .squishy-hover:hover { transform: scale(1.03) translateY(-2px); }
+        .squishy-active:active { transform: scale(0.97); }
+    </style>
+</head>
+<body class="bg-background min-h-screen flex flex-col items-center font-sans text-on-background selection:bg-primary-container selection:text-on-primary-container">
+    
+    <div class="sticky top-0 z-50 bg-background/95 backdrop-blur-sm w-full flex justify-center py-6 px-6 border-b border-outline-variant/20 shadow-sm transition-all duration-300">
+        <div class="w-full max-w-md flex flex-col gap-3">
+            <div class="flex justify-between items-center text-xs text-on-surface-variant uppercase font-bold tracking-wider">
+                <span id="step-counter">Step 1 of 2</span>
+                <span>Profile Setup</span>
+            </div>
+            <div class="h-1 w-full bg-surface-variant rounded-full overflow-hidden">
+                <div id="progress-bar" class="h-full bg-primary w-1/2 rounded-full transition-all duration-700 ease-in-out"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="w-full max-w-[1140px] mx-auto flex flex-col items-center gap-16 pt-10 pb-24 px-6">
+        <div class="text-center space-y-2 w-full max-w-2xl">
+            <h1 class="text-5xl font-bold text-on-background tracking-tight">Welcome to Pawgress</h1>
+            <p class="text-lg text-on-surface-variant">Let's find your perfect companion.</p>
+        </div>
+
+        <div class="w-full flex flex-col items-center gap-16">
+            <section class="flex flex-col items-center gap-8 w-full max-w-3xl">
+                <h2 class="text-3xl font-bold text-on-background text-center">Pick your pet</h2>
+                <div class="flex flex-wrap justify-center gap-6 w-full" id="pet-options">
+                    <div class="pet-card flex-shrink-0 w-32 h-36 flex flex-col items-center justify-center gap-3 rounded-xl bg-surface border border-gray-300 squishy-hover cursor-pointer opacity-70 hover:opacity-100 hover:bg-surface-container-low transition-colors relative overflow-hidden group">
+                        <span class="pet-emoji text-5xl drop-shadow-sm grayscale-[30%] z-10 group-hover:-translate-y-1 transition-transform">🐶</span>
+                        <span class="pet-title text-xs font-bold text-on-surface-variant z-10 uppercase tracking-widest">Dog</span>
+                    </div>
+                    <div class="pet-card flex-shrink-0 w-32 h-36 flex flex-col items-center justify-center gap-3 rounded-xl bg-surface border border-gray-300 squishy-hover cursor-pointer opacity-70 hover:opacity-100 hover:bg-surface-container-low transition-colors relative overflow-hidden group">
+                        <span class="pet-emoji text-5xl drop-shadow-sm grayscale-[30%] z-10 group-hover:-translate-y-1 transition-transform">🐱</span>
+                        <span class="pet-title text-xs font-bold text-on-surface-variant z-10 uppercase tracking-widest">Cat</span>
+                    </div>
+                    <div class="pet-card flex-shrink-0 w-32 h-36 flex flex-col items-center justify-center gap-3 rounded-xl bg-surface border border-gray-300 squishy-hover cursor-pointer opacity-70 hover:opacity-100 hover:bg-surface-container-low transition-colors relative overflow-hidden group">
+                        <span class="pet-emoji text-5xl drop-shadow-sm grayscale-[30%] z-10 group-hover:-translate-y-1 transition-transform">🐰</span>
+                        <span class="pet-title text-xs font-bold text-on-surface-variant z-10 uppercase tracking-widest">Rabbit</span>
+                    </div>
+                    <div class="pet-card flex-shrink-0 w-32 h-36 flex flex-col items-center justify-center gap-3 rounded-xl bg-surface border border-gray-300 squishy-hover cursor-pointer opacity-70 hover:opacity-100 hover:bg-surface-container-low transition-colors relative overflow-hidden group">
+                        <span class="pet-emoji text-5xl drop-shadow-sm grayscale-[30%] z-10 group-hover:-translate-y-1 transition-transform">🦊</span>
+                        <span class="pet-title text-xs font-bold text-on-surface-variant z-10 uppercase tracking-widest">Fox</span>
+                    </div>
+                    <div class="pet-card flex-shrink-0 w-32 h-36 flex flex-col items-center justify-center gap-3 rounded-xl bg-surface border border-gray-300 squishy-hover cursor-pointer opacity-70 hover:opacity-100 hover:bg-surface-container-low transition-colors relative overflow-hidden group">
+                        <span class="pet-emoji text-5xl drop-shadow-sm grayscale-[30%] z-10 group-hover:-translate-y-1 transition-transform">🐼</span>
+                        <span class="pet-title text-xs font-bold text-on-surface-variant z-10 uppercase tracking-widest">Panda</span>
+                    </div>
+                </div>
+            </section>
+
+            <div class="h-px w-full max-w-md bg-gray-300"></div>
+
+            <section id="step-2-section" class="flex flex-col items-center gap-8 w-full max-w-xl opacity-30 pointer-events-none transition-all duration-500">
+                <h2 class="text-3xl font-bold text-on-background text-center">Name your companion</h2>
+                <div class="flex flex-col items-center gap-6 w-full mt-4">
+                    <div class="w-20 h-20 rounded-full shadow-sm border border-gray-300 bg-surface-container flex items-center justify-center text-4xl" id="selected-pet-avatar">🐾</div>
+                    <p class="text-lg text-on-surface-variant text-center max-w-md">"I'm so excited to start this journey with you! What should we call me?"</p>
+                    <div class="w-full relative mt-2 group">
+                        <input id="pet-name-input" class="w-full bg-surface border-b-2 border-gray-300 text-on-background px-4 py-3 text-2xl text-center focus:outline-none focus:border-primary transition-colors placeholder:text-gray-400 bg-transparent" placeholder="e.g. Barnaby, Luna, Pip..." type="text"/>
+                    </div>
+                </div>
+            </section>
+
+            <div class="mt-8 flex justify-center w-full">
+                <button id="continue-btn" disabled class="bg-primary text-on-primary text-xs font-bold uppercase tracking-widest px-10 py-5 rounded-full flex items-center gap-3 transition-all opacity-50 cursor-not-allowed">
+                    Continue Journey <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDoJaDoLgqK0mBqwFlR4IzfOXU5Momw79M",
+            authDomain: "pawgress-61f1b.firebaseapp.com",
+            projectId: "pawgress-61f1b",
+            storageBucket: "pawgress-61f1b.firebasestorage.app",
+            messagingSenderId: "961533964015",
+            appId: "1:961533964015:web:e8ebc2c592bcf03def751a"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+
+        // Cek Login
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+            } else {
+                window.location.href = "login.html"; // Kalo belum login, usir ke login
+            }
+        });
+
+        // UI Logic
+        const petCards = document.querySelectorAll('.pet-card');
+        const step2Section = document.getElementById('step-2-section');
+        const stepCounter = document.getElementById('step-counter');
+        const progressBar = document.getElementById('progress-bar');
+        const petNameInput = document.getElementById('pet-name-input');
+        const continueBtn = document.getElementById('continue-btn');
+        const selectedPetAvatar = document.getElementById('selected-pet-avatar');
+        let isStep1Complete = false;
+
+        petCards.forEach(card => {
+            card.addEventListener('click', () => {
+                petCards.forEach(c => {
+                    c.classList.remove('bg-primary-container', 'border-2', 'border-primary', 'opacity-100');
+                    c.classList.add('bg-surface', 'border', 'border-gray-300', 'opacity-70');
+                    c.querySelector('.pet-emoji').classList.add('grayscale-[30%]');
+                    c.querySelector('.pet-title').classList.remove('text-primary');
+                    c.querySelector('.pet-title').classList.add('text-on-surface-variant');
+                });
+                card.classList.add('bg-primary-container', 'border-2', 'border-primary', 'opacity-100');
+                card.classList.remove('bg-surface', 'border', 'border-gray-300', 'opacity-70');
+                card.querySelector('.pet-emoji').classList.remove('grayscale-[30%]');
+                card.querySelector('.pet-title').classList.add('text-primary');
+                card.querySelector('.pet-title').classList.remove('text-on-surface-variant');
+
+                selectedPetAvatar.innerText = card.querySelector('.pet-emoji').innerText;
+                isStep1Complete = true;
+                step2Section.classList.remove('opacity-30', 'pointer-events-none');
+                stepCounter.innerText = "Step 2 of 2";
+                progressBar.classList.remove('w-1/2'); progressBar.classList.add('w-full');
+                setTimeout(() => { step2Section.scrollIntoView({ behavior: 'smooth', block: 'center' }); petNameInput.focus(); }, 150);
+                checkFormCompletion();
+            });
+        });
+
+        petNameInput.addEventListener('input', checkFormCompletion);
+        function checkFormCompletion() {
+            if (isStep1Complete && petNameInput.value.trim() !== '') {
+                continueBtn.disabled = false;
+                continueBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                continueBtn.classList.add('hover:bg-surface-tint', 'squishy-hover', 'squishy-active', 'cursor-pointer');
+            } else {
+                continueBtn.disabled = true;
+                continueBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        // SIMPAN KE DATABASE FIRESTORE
+        continueBtn.addEventListener('click', async () => {
+            if(!currentUser) return;
+            continueBtn.innerText = "Creating Profile...";
+            
+            const petName = petNameInput.value.trim();
+            const petEmoji = selectedPetAvatar.innerText;
+
+            try {
+                // Bikin dokumen untuk UID ini di collection "users"
+                await setDoc(doc(db, "users", currentUser.uid), {
+                    petName: petName,
+                    petEmoji: petEmoji,
+                    habits: [], // Habit masih kosong
+                    stats: { totalFood: 0, habitsDone: 0, streak: 0 },
+                    todayPawStatus: 'none'
+                });
+                // Kalau sukses nyimpen ke database, pindah ke dashboard
+                window.location.href = 'dashboard.html';
+            } catch (e) {
+                console.error("Error adding document: ", e);
+                continueBtn.innerText = "Error! Try Again";
+            }
+        });
+    </script>
+</body>
+</html>
