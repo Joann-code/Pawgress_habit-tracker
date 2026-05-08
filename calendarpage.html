@@ -67,8 +67,9 @@
                         <p class="text-sm font-medium">Level 1</p>
                     </div>
                     <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-variant border-2 border-outline-variant/30 relative flex-shrink-0 flex items-center justify-center text-xl bg-surface-container-high">
-                        <span id="header-pet-avatar">🐶</span>
+                        <span id="header-pet-avatar">⏳</span>
                     </div>
+                    <!-- Tombol Logout -->
                     <button id="btn-logout-nav" class="ml-2 w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-error-container hover:text-on-error-container transition-colors cursor-pointer" title="Log Out">
                         <span class="material-symbols-outlined" style="font-size: 22px;">logout</span>
                     </button>
@@ -83,12 +84,14 @@
             <section class="flex-1">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
                     <div>
-                        <h1 class="text-4xl font-bold mb-2 text-on-background">October</h1>
+                        <!-- ID ditambahkan di Sini untuk Tanggal Dinamis -->
+                        <h1 id="current-month-display" class="text-4xl font-bold mb-2 text-on-background">Month</h1>
                         <p class="text-lg text-on-surface-variant">Stay on track, one paw at a time.</p>
                     </div>
                     <div class="flex bg-surface-container-lowest border border-surface-container rounded-full p-1 shadow-sm self-start sm:self-auto">
                         <button class="p-2 rounded-full hover:bg-surface-container-low text-on-surface-variant"><span class="material-symbols-outlined">chevron_left</span></button>
-                        <div class="px-6 py-2 font-medium text-on-background">2023</div>
+                        <!-- ID ditambahkan di Sini untuk Tahun Dinamis -->
+                        <div id="current-year-display" class="px-6 py-2 font-medium text-on-background">Year</div>
                         <button class="p-2 rounded-full hover:bg-surface-container-low text-on-surface-variant"><span class="material-symbols-outlined">chevron_right</span></button>
                     </div>
                 </div>
@@ -165,9 +168,9 @@
                 </div>
 
                 <div class="bg-surface-container-lowest rounded-3xl p-6 border border-surface-container shadow-sm flex items-center gap-4">
-                    <div id="cal-pet-emoji-small" class="text-3xl">🐶</div>
+                    <div id="cal-pet-emoji-small" class="text-3xl">⏳</div>
                     <div>
-                        <p id="cal-pet-name-small" class="font-bold text-on-background">Buddy</p>
+                        <p id="cal-pet-name-small" class="font-bold text-on-background">Loading...</p>
                         <p class="text-xs text-on-surface-variant">Your Companion</p>
                     </div>
                 </div>
@@ -176,6 +179,7 @@
         </div>
     </main>
 
+    <!-- Modal Logout -->
     <div id="logout-modal" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm items-center justify-center p-4">
         <div id="logout-modal-card" class="bg-surface-container-lowest w-full max-w-sm rounded-3xl p-8 shadow-2xl flex flex-col gap-6 opacity-0">
             <div class="text-center space-y-2">
@@ -192,11 +196,13 @@
         </div>
     </div>
 
+    <!-- FIREBASE & DATE SCRIPT -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-        // Konfigurasi Firebase (Jangan dihapus)
+        // Konfigurasi Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyDoJaDoLgqK0mBqwFlR4IzfOXU5Momw79M",
             authDomain: "pawgress-61f1b.firebaseapp.com",
@@ -207,70 +213,87 @@
         };
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // --- SISTEM TANGGAL DINAMIS ---
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const today = new Date();
+        document.getElementById('current-month-display').innerText = monthNames[today.getMonth()];
+        document.getElementById('current-year-display').innerText = today.getFullYear();
 
         // --- SISTEM LOGOUT ---
-        const btnLogoutNav = document.getElementById('btn-logout-nav');
         const logoutModal = document.getElementById('logout-modal');
         const logoutModalCard = document.getElementById('logout-modal-card');
-        const btnCancelLogout = document.getElementById('btn-cancel-logout');
-        const btnConfirmLogout = document.getElementById('btn-confirm-logout');
-
-        btnLogoutNav.addEventListener('click', () => {
-            logoutModal.classList.remove('hidden'); logoutModal.classList.add('flex', 'animate-fade-in');
-            logoutModalCard.classList.add('animate-slide-up');
+        document.getElementById('btn-logout-nav').addEventListener('click', () => { 
+            logoutModal.classList.remove('hidden'); logoutModal.classList.add('flex', 'animate-fade-in'); logoutModalCard.classList.add('animate-slide-up'); 
         });
-
-        const closeLogoutModal = () => {
-            logoutModal.classList.add('hidden'); logoutModal.classList.remove('flex', 'animate-fade-in');
-            logoutModalCard.classList.remove('animate-slide-up');
+        const closeLogoutModal = () => { 
+            logoutModal.classList.add('hidden'); logoutModal.classList.remove('flex', 'animate-fade-in'); logoutModalCard.classList.remove('animate-slide-up'); 
         };
-
-        btnCancelLogout.addEventListener('click', closeLogoutModal);
+        document.getElementById('btn-cancel-logout').addEventListener('click', closeLogoutModal);
         logoutModal.addEventListener('click', (e) => { if(e.target === logoutModal) closeLogoutModal(); });
 
-        btnConfirmLogout.addEventListener('click', () => {
-            btnConfirmLogout.innerText = "Logging out...";
-            signOut(auth).then(() => {
-                localStorage.clear(); // Bersihin data lokal biar akun selanjutnya fresh
-                window.location.href = "login.html";
-            }).catch((error) => {
-                console.error("Logout error:", error);
-                btnConfirmLogout.innerText = "Yes, Log Out";
-            });
+        document.getElementById('btn-confirm-logout').addEventListener('click', () => {
+            document.getElementById('btn-confirm-logout').innerText = "Logging out...";
+            signOut(auth).then(() => { window.location.href = "login.html"; });
         });
 
-        // --- SISTEM TAMPILAN KALENDER ---
-        document.addEventListener('DOMContentLoaded', () => {
-            const petName = localStorage.getItem('pawgress_pet_name') || 'Buddy';
-            const petEmoji = localStorage.getItem('pawgress_pet_emoji') || '🐶';
-            const habits = JSON.parse(localStorage.getItem('pawgress_habits')) || [];
-            const stats = JSON.parse(localStorage.getItem('pawgress_stats')) || { totalFood: 0, habitsDone: 0, streak: 0 };
-            const todayPawStatus = localStorage.getItem('pawgress_today_paw') || 'none';
+        // --- TARIK DATA DARI FIREBASE ---
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                try {
+                    const docRef = doc(db, "users", user.uid);
+                    const docSnap = await getDoc(docRef);
 
-            document.getElementById('header-pet-avatar').innerText = petEmoji;
-            document.getElementById('cal-pet-emoji-small').innerText = petEmoji;
-            document.getElementById('cal-pet-name-small').innerText = petName;
+                    if (docSnap.exists()) {
+                        const data = docSnap.data();
+                        
+                        // Update UI Hewan
+                        document.getElementById('header-pet-avatar').innerText = data.petEmoji;
+                        document.getElementById('cal-pet-emoji-small').innerText = data.petEmoji;
+                        document.getElementById('cal-pet-name-small').innerText = data.petName;
 
-            document.getElementById('cal-streak-text').innerText = stats.streak;
-            document.getElementById('cal-food-text').innerText = stats.totalFood;
+                        // Update Stats
+                        const stats = data.stats || { totalFood: 0, habitsDone: 0, streak: 0 };
+                        document.getElementById('cal-streak-text').innerText = stats.streak;
+                        document.getElementById('cal-food-text').innerText = stats.totalFood;
 
-            const progressText = document.getElementById('cal-progress-text');
-            const progressBar = document.getElementById('cal-progress-bar');
-            
-            if (habits.length > 0) {
-                const doneCount = habits.filter(h => h.checked).length;
-                const percentage = Math.round((doneCount / habits.length) * 100);
-                progressText.innerText = percentage + '%';
-                progressBar.style.width = percentage + '%';
-            }
+                        // Update Progress Bar Harian
+                        const habits = data.habits || [];
+                        const progressText = document.getElementById('cal-progress-text');
+                        const progressBar = document.getElementById('cal-progress-bar');
+                        
+                        if (habits.length > 0) {
+                            const doneCount = habits.filter(h => h.checked).length;
+                            const percentage = Math.round((doneCount / habits.length) * 100);
+                            progressText.innerText = percentage + '%';
+                            progressBar.style.width = percentage + '%';
+                        } else {
+                            progressText.innerText = '0%';
+                            progressBar.style.width = '0%';
+                        }
 
-            const pawContainer = document.getElementById('today-paw-container');
-            if (todayPawStatus === 'complete') {
-                pawContainer.innerHTML = `<span class="material-symbols-outlined text-secondary text-2xl" style="font-variation-settings: 'FILL' 1;">pets</span>`;
-            } else if (todayPawStatus === 'partial') {
-                pawContainer.innerHTML = `<span class="material-symbols-outlined text-primary/40 text-2xl" style="font-variation-settings: 'FILL' 1;">pets</span>`;
+                        // Update Paw Stamp di kalender
+                        const pawContainer = document.getElementById('today-paw-container');
+                        const todayPawStatus = data.todayPawStatus || 'none';
+                        
+                        if (todayPawStatus === 'complete') {
+                            pawContainer.innerHTML = `<span class="material-symbols-outlined text-secondary text-2xl" style="font-variation-settings: 'FILL' 1;">pets</span>`;
+                        } else if (todayPawStatus === 'partial') {
+                            pawContainer.innerHTML = `<span class="material-symbols-outlined text-primary/40 text-2xl" style="font-variation-settings: 'FILL' 1;">pets</span>`;
+                        } else {
+                            pawContainer.innerHTML = '';
+                        }
+                    } else {
+                        // User valid tapi gak ada datanya (belum pilih hewan)
+                        window.location.href = "onboarding.html";
+                    }
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                }
             } else {
-                pawContainer.innerHTML = '';
+                // Kalo ga login, lempar keluar
+                window.location.href = "login.html";
             }
         });
     </script>
